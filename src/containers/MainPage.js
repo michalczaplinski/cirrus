@@ -1,29 +1,28 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as actions from '../actions/fuelSavingsActions';
-import FuelSavingsForm from '../components/FuelSavingsForm';
+import * as actions from '../actions/actions';
+import TopBar from '../components/TopBar';
 
-export class FuelSavingsPage extends Component {
+class MainPage extends Component {
+
   render() {
     return (
-      <FuelSavingsForm
-        saveFuelSavings={this.props.actions.saveFuelSavings}
-        calculateFuelSavings={this.props.actions.calculateFuelSavings}
+      <TopBar
         appState={this.props.appState}
+        readyChangeSwitch={this.props.actions.changeReady}
       />
     );
   }
 }
 
-FuelSavingsPage.propTypes = {
-  actions: PropTypes.object.isRequired,
+MainPage.propTypes = {
   appState: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
   return {
-    appState: state.fuelSavingsAppState
+    appState: state.ReadyState
   };
 }
 
@@ -36,4 +35,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FuelSavingsPage);
+)(MainPage);
