@@ -21,12 +21,16 @@
   "author": "Cory House",
   "license": "MIT",
   "dependencies": {
+    "bulma": "0.0.24",
     "object-assign": "4.0.1",
     "react": "15.0.1",
     "react-dom": "15.0.1",
     "react-redux": "4.4.5",
     "react-router": "2.3.0",
-    "redux": "3.5.2"
+    "redux": "3.5.2",
+    "redux-thunk": "2.0.1",
+    "soundcloud": "3.1.0",
+    "whatwg-fetch": "1.0.0"
   },
   "devDependencies": {
     "babel-cli": "6.7.7",
