@@ -6,6 +6,11 @@ const GLOBALS = {
   __DEV__: true
 };
 
+const sassLoaders = [
+  'css-loader',
+  'sass-loader?indentedSyntax=sass&includePaths[]=' + path.resolve(__dirname, './src')
+];
+
 export default {
   debug: true,
   devtool: 'cheap-module-eval-source-map', // more info:https://webpack.github.io/docs/build-performance.html#sourcemaps and https://webpack.github.io/docs/configuration.html#devtool
@@ -29,7 +34,11 @@ export default {
     loaders: [
       {test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel']},
       {test: /\.(jpe?g|png|gif|svg)$/i, loaders: ['file']},
-      {test: /(\.css|\.scss)$/, loaders: ['style', 'css?sourceMap', 'sass?sourceMap']}
+      {test: /(\.css|\.scss)$/, loaders: ['style', 'css?sourceMap', 'sass?sourceMap']},
+      {
+        test: /\.sass$/,
+        loader: 'style!css!sass?sourceMap'
+      }
     ]
   }
 };
