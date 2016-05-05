@@ -3,7 +3,7 @@ export default function testMiddleware({ dispatch, getState }) {
     if (typeof action === 'function') {
       return action(dispatch, getState);
     }
-    console.log('action dispatched', JSON.stringify(action));
+    //console.log('action dispatched', JSON.stringify(action));
 
     return next(action);
   };

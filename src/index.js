@@ -7,11 +7,16 @@ import { Router, browserHistory } from 'react-router';
 import routes from './routes';
 import configureStore from './store/configureStore';
 import initialState from './reducers/initialState';
+import SC from 'soundcloud';
 
 import './styles/styles.scss';
-//import 'bulma/bulma.sass';
-//You can import SASS/CSS files too! Webpack will run the
-// associated loader and plug this into the page.
+
+
+SC.initialize({
+  client_id: initialState.client_id,
+  redirect_uri: initialState.redirect_uri
+  //oauth_token: window.localStorage.getItem('oauth_token') || undefined
+});
 
 const store = configureStore();
 

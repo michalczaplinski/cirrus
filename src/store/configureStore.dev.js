@@ -5,7 +5,9 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import rootReducer from '../reducers';
 import ReduxThunk from 'redux-thunk'
+import promiseMiddleware from 'redux-promise';
 import immutableStateInvariantMiddleware from 'redux-immutable-state-invariant';
+
 import testMiddleware from '../middleware/TestMiddleware';
 
 export default function configureStore(initialState) {
