@@ -1,24 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 
-const TopBar = ({scConnect, scDisconnect}) => {
+const TopBar = ({isConnected, scConnect, scDisconnect}) => {
 
   let logoStyle = {maxHeight: 50};
 
-  let connectButtonPath = SC.isConnected() ? '../btn-disconnect.png' : '../btn-connect.png';
-  let scButtonAction =  SC.isConnected() ? scDisconnect : scConnect;
+  let connectButtonPath = isConnected ? '../media/btn-disconnect.png' : '../media/btn-connect.png';
+  let scButtonAction =  isConnected ? scDisconnect : scConnect;
 
   return (
     <header className="header">
       <div className="container">
         <div className="header-left">
           <a className="header-item" href="#">
-            <img src="../musicumulus-logo.svg" alt="Logo" height="60" width="60" style={logoStyle}></img>
+            <img src="../media/musicumulus-logo.svg" alt="Logo" height="60" width="60" style={logoStyle}></img>
           </a>
           <a className="header-tab" href="#">
-            Tab
+            Hot
           </a>
           <a className="header-tab is-active" href="#">
-            Active tab
+            Best
           </a>
         </div>
 

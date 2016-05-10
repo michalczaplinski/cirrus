@@ -4,23 +4,25 @@ import objectAssign from 'object-assign';
 import * as actions from '../actions/actionTypes';
 import initialState from './initialState';
 
-function initialData(state = initialState.initial_data, action) {
-  switch (action.type) {
-
-    case actions.RECEIVE_INITIAL_DATA:
-      return action.tracks;
-
-    default:
-      return state;
-  }
-}
 
 function userData(state = {}, action) {
   switch (action.type) {
 
+    case actions.RECEIVE_INITIAL_DATA:
+      return objectAssign({}, state, {
+        tracks: action.tracks
+      });
+
     case actions.RECEIVE_USER_DATA:
       return objectAssign({}, state, {
-        collection: action.userData,
+        tracks: action.tracks.map(track => track.origin),
+        future_href: action.future_href,
+        next_href: action.next_href
+      });
+
+    case actions.RECEIVE_MORE_DATA:
+      return objectAssign({}, state, {
+        tracks: state.tracks.concat(action.tracks.map(track => track.origin)),
         future_href: action.future_href,
         next_href: action.next_href
       });
@@ -33,18 +35,25 @@ function userData(state = {}, action) {
 function appState(state = {}, action) {
   switch (action.type) {
 
-    case actions.REQUEST_INITIAL_DATA:
-    case actions.REQUEST_USER_DATA:
-      return objectAssign({}, state, { is_loading: true });
+    case actions.REQUESTED_DATA:
+      return objectAssign({}, state, {
+        is_loading: true
+      });
 
     case actions.RECEIVE_INITIAL_DATA:
     case actions.RECEIVE_USER_DATA:
+    case actions.RECEIVE_MORE_DATA:
       return objectAssign({}, state, { is_loading: false });
 
     case actions.RECEIVE_CONNECTION:
       return objectAssign({}, state, {
-        is_connected: true,
-        connection: action.connection
+        is_connected: action.is_connected,
+        oauth_token: action.oauth_token
+      });
+    case actions.REMOVE_CONNECTION:
+      return objectAssign({}, state, {
+        is_connected: action.is_connected,
+        oauth_token: undefined
       });
 
     default:
@@ -53,7 +62,6 @@ function appState(state = {}, action) {
 }
 
 const rootReducer = combineReducers({
-  initialData,
   userData,
   appState
 });

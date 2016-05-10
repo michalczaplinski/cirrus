@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
 
-const SomeContent = ({ trackData }) => {
+const Track = ({ trackData }) => {
 
-  var image = trackData.artwork_url || 'http://placehold.it/64x64';
+  var image = trackData.artwork_url || trackData.user.avatar_url || 'http://placehold.it/64x64';
 
   var title = trackData.title;
   title.length > 23 ? title = title.slice(0, 23) + '...' : title;
@@ -11,32 +11,36 @@ const SomeContent = ({ trackData }) => {
   username.length > 15 ? username = username.slice(0, 23) + '...' : username;
 
   return (
-      <div className="card" style={{display: 'inline-block'}}>
+      <div className="card" style={{backgroundImage: 'url(' + trackData.waveform_url + ')'}}>
         <div className="card-content">
           <div className="media">
+
             <div className="media-left">
-              <figure className="image is-32x32">
+              <figure className="image is-64x64">
                 <img src={image} alt="Image"></img>
               </figure>
             </div>
+
             <div className="media-content">
-              <p className="title is-5">{username}</p>
+              <p className="title is-5">{trackData.user.username}</p>
               <p className="subtitle is-6">{title}</p>
             </div>
+            <button > listen</button>
           </div>
 
           <div className="content">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Phasellus nec iaculis mauris. <a href="#">@bulmaio</a>.
-            <a href="#">#css</a> <a href="#">#responsive</a>
-            <br/>
-              <small>11:09 PM - 1 Jan 2016</small>
+            <a href="#">
+              <span class="icon is-small">
+                <i class="fa fa-heart"></i>{trackData.likes_count}
+              </span>
+            </a>
+              <small>{trackData.created_at}</small>
           </div>
         </div>
       </div>
   );
 };
 
-export default SomeContent
+export default Track
 
 

@@ -14,11 +14,16 @@ import './styles/styles.scss';
 
 SC.initialize({
   client_id: initialState.client_id,
-  redirect_uri: initialState.redirect_uri
-  //oauth_token: window.localStorage.getItem('oauth_token') || undefined
+  redirect_uri: initialState.redirect_uri,
+  oauth_token: window.localStorage.getItem('oauth_token') || undefined
 });
 
-const store = configureStore();
+const store = configureStore({
+  appState: {
+    is_connected: window.localStorage.getItem('is_connected') == 'true' || false,
+    is_loading: true
+  }
+});
 
 render(
   <Provider store={store}>
