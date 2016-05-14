@@ -6,7 +6,7 @@ export default function localStorageMiddleware({ dispatch, getState }) {
     if (!isEmpty(action.itemsToStore)) {
       action.itemsToStore.forEach((key) => {
         window.localStorage.setItem(key, action[key]);
-        console.log('stored');
+        console.log(`%c stored:  ${key} = ${action[key]}`, "background: #E8E8E8; color: green");
       });
     }
 

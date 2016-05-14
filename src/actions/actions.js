@@ -5,7 +5,7 @@ import URI from 'urijs';
 
 export function requestedData() {
   return {
-    type: types.REQUESTED_DATA,
+    type: types.REQUEST_DATA,
     is_loading: true
   };
 }
@@ -31,7 +31,7 @@ export function receiveUserData(json) {
 }
 
 export function fetchInitialData() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
 
     dispatch(requestedData());
 
@@ -43,7 +43,7 @@ export function fetchInitialData() {
 }
 
 export function fetchUserData() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
 
     dispatch(requestedData());
 
@@ -54,7 +54,7 @@ export function fetchUserData() {
 }
 
 export function scConnect() {
-  return (dispatch, getState) =>  {
+  return (dispatch) =>  {
 
     let connection = SC.connect();
 
@@ -63,8 +63,8 @@ export function scConnect() {
         type: types.RECEIVE_CONNECTION,
         oauth_token: data.oauth_token,
         is_connected: true,
-        // todo move the localStoreage payloads into their own actions
         itemsToStore: ['oauth_token', 'is_connected']});
+      // todo move the localStoreage payloads into their own actions
       dispatch(fetchUserData());
     });
     //todo error handling
@@ -83,6 +83,8 @@ export function scDisconnect() {
 export function fetchMoreData() {
   return (dispatch, getState) => {
 
+    // the SoundCloud API returns the URL to the next datablock
+    // since we are using the JS SDK, we just need the cursor attribute from the URL.
     let cursor = getState().userData.next_href.split('cursor=')[1];
 
     dispatch(requestedData());

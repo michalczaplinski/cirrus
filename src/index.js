@@ -22,6 +22,9 @@ const store = configureStore({
   appState: {
     is_connected: window.localStorage.getItem('is_connected') == 'true' || false,
     is_loading: true
+  },
+  userData: {
+    tracks: []
   }
 });
 

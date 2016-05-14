@@ -31,7 +31,7 @@ const Track = ({ trackData }) => {
           <div className="content">
             <a href="#">
               <span class="icon is-small">
-                <i class="fa fa-heart"></i>{trackData.likes_count}
+                <i class="fa fa-heart"></i>{(trackData.likes_count+1) * 100 / (trackData.playback_count+1)}
               </span>
             </a>
               <small>{trackData.created_at}</small>

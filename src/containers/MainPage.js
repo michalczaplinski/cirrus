@@ -13,7 +13,6 @@ import Spinner from '../components/Spinner';
 class MainPage extends Component {
 
   componentDidMount() {
-    // todo move the "isConnected" flag inside the store
     if (!this.props.appState.is_connected) {
       this.props.actions.fetchInitialData();
     } else {
@@ -36,17 +35,23 @@ class MainPage extends Component {
     return (
       <div>
         <div className="my-container">
-          {data.map(track => <Track trackData={track}/>)}
+          {data.map(track => <Track key={track.id + track.user_id} trackData={track}/>)}
         </div>
       </div>
     )
   }
 
+  handleWaypointEnter() {
+    return this.props.actions.fetchMoreData;
+  }
+
   renderLoading() {
     if (this.props.appState.is_loading) {
       return <Spinner/>;
-    } else if (this.props.appState.is_connected) {
-      return <Waypoint onEnter={this.props.actions.fetchMoreData}/>;
+    } else if (!this.props.appState.is_loading && this.props.appState.is_connected) {
+      console.log('requested more data');
+      console.log(this.props.appState.is_loading);
+      return <Waypoint onEnter={this.handleWaypointEnter()}/>;
     } else {
       return '';
     }
