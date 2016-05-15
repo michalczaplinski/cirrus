@@ -9,14 +9,15 @@ import * as actions from '../actions/actions';
 import Track from '../components/Track';
 import TopBar from '../components/TopBar';
 import Spinner from '../components/Spinner';
+import {bestTrackSort} from '../logic/logic';
 
 class MainPage extends Component {
 
   componentDidMount() {
     if (!this.props.appState.is_connected) {
-      this.props.actions.fetchInitialData();
+      this.props.actions.fetchInitialData(this.props.location.pathname);
     } else {
-      this.props.actions.fetchUserData();
+      this.props.actions.fetchUserData(this.props.location.pathname);
     }
   }
 
@@ -26,7 +27,7 @@ class MainPage extends Component {
 
     // if the component loses the connection, fetch the initial data again.
     if (current != next && next == false) {
-      this.props.actions.fetchInitialData();
+      this.props.actions.fetchInitialData(this.props.location.pathname);
     }
   }
 
@@ -42,16 +43,14 @@ class MainPage extends Component {
   }
 
   handleWaypointEnter() {
-    return this.props.actions.fetchMoreData;
+    return this.props.actions.fetchMoreData(this.props.location.pathname);
   }
 
   renderLoading() {
     if (this.props.appState.is_loading) {
       return <Spinner/>;
     } else if (!this.props.appState.is_loading && this.props.appState.is_connected) {
-      console.log('requested more data');
-      console.log(this.props.appState.is_loading);
-      return <Waypoint onEnter={this.handleWaypointEnter()}/>;
+      return <Waypoint onEnter={this.handleWaypointEnter}/>;
     } else {
       return '';
     }

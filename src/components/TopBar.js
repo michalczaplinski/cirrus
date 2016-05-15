@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { IndexLink, Link } from 'react-router'
 
 const TopBar = ({isConnected, scConnect, scDisconnect}) => {
 
@@ -11,15 +12,18 @@ const TopBar = ({isConnected, scConnect, scDisconnect}) => {
     <header className="header">
       <div className="container">
         <div className="header-left">
-          <a className="header-item" href="#">
+          <IndexLink to="/" className="header-item" >
             <img src="../media/musicumulus-logo.svg" alt="Logo" height="60" width="60" style={logoStyle}></img>
-          </a>
-          <a className="header-tab" href="#">
+          </IndexLink>
+          <Link to="/hot" activeClassName="is-active" className="header-tab">
             Hot
-          </a>
-          <a className="header-tab is-active" href="#">
+          </Link>
+          <Link to="/best" className="header-tab">
             Best
-          </a>
+          </Link>
+          <Link to="/top" className="header-tab">
+            Top
+          </Link>
         </div>
 
         <span className="header-toggle">

@@ -5,14 +5,19 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import rootReducer from '../reducers';
 import ReduxThunk from 'redux-thunk'
-import promiseMiddleware from 'redux-promise';
 import immutableStateInvariantMiddleware from 'redux-immutable-state-invariant';
+import promiseMiddleware from 'redux-promise-middleware';
 
 import localStorageMiddleware from '../middleware/localStorageMiddleware';
 
 export default function configureStore(initialState) {
   let store = createStore(rootReducer, initialState, compose(
-    applyMiddleware(localStorageMiddleware, ReduxThunk, immutableStateInvariantMiddleware()),
+    applyMiddleware(
+      localStorageMiddleware,
+      ReduxThunk,
+      promiseMiddleware(),
+      immutableStateInvariantMiddleware()
+    ),
     window.devToolsExtension ? window.devToolsExtension() : f => f //add support for Redux dev tools
     )
   );
