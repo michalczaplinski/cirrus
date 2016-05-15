@@ -1,7 +1,5 @@
 import * as types from './actionTypes';
 import SC from 'soundcloud';
-import URI from 'urijs';
-
 
 export function requestedData() {
   return {
@@ -10,27 +8,7 @@ export function requestedData() {
   };
 }
 
-export function receiveInitialData(json) {
-  return {
-    type: types.RECEIVE_INITIAL_DATA,
-    tracks: json,
-    is_loading: false,
-    receivedAt: Date.now()
-  };
-}
-
-export function receiveUserData(json) {
-  return {
-    type: types.RECEIVE_USER_DATA,
-    tracks: json.collection,
-    future_href: json.future_href,
-    next_href: json.next_href,
-    is_loading: false,
-    received_at: Date.now()
-  };
-}
-
-export function fetchInitialData() {
+export function fetchInitialData(path) {
   return (dispatch) => {
 
     dispatch(requestedData());
@@ -42,16 +20,66 @@ export function fetchInitialData() {
   };
 }
 
-export function fetchUserData() {
+export function fetchUserData(path) {
   return (dispatch) => {
 
     dispatch(requestedData());
 
     SC.get('/me/activities/tracks', {limit: 50})
-      .then(json => dispatch(receiveUserData(json)));
+      .then(json => dispatch(receiveUserData(json.collection)));
     //todo add error handling
   };
 }
+
+export function fetchMoreData(path) {
+  return (dispatch, getState) => {
+
+    // the SoundCloud API returns the URL to the next datablock
+    // since we are using the JS SDK, we just need the cursor attribute from the URL.
+    let cursor = getState().userData.next_href.split('cursor=')[1];
+
+    dispatch(requestedData());
+
+    SC.get('/me/activities/tracks', {limit: 50, cursor: cursor})
+      .then(json => dispatch(receiveMoreData(json.collection)));
+    //todo: add error handling here
+  }
+}
+
+export function receiveInitialData(json) {
+  return (dispatch) => {
+    dispatch({
+      type: types.RECEIVE_INITIAL_DATA,
+      tracks: json,
+      is_loading: false,
+      receivedAt: Date.now()
+    });
+  };
+}
+
+export function receiveUserData(json) {
+  return {
+    type: types.RECEIVE_USER_DATA,
+    tracks: json,
+    future_href: json.future_href,
+    next_href: json.next_href,
+    is_loading: false,
+    received_at: Date.now()
+  };
+}
+
+
+export function receiveMoreData(json) {
+  return {
+    type: types.RECEIVE_MORE_DATA,
+    tracks: json,
+    future_href: json.future_href,
+    next_href: json.next_href,
+    is_loading: false,
+    received_at: Date.now()
+  }
+}
+
 
 export function scConnect() {
   return (dispatch) =>  {
@@ -78,30 +106,4 @@ export function scDisconnect() {
     // todo move the localStoreage payloads into their own actions
     itemsToRemove: ['oauth_token'],
     itemsToStore: ['is_connected']}
-}
-
-export function fetchMoreData() {
-  return (dispatch, getState) => {
-
-    // the SoundCloud API returns the URL to the next datablock
-    // since we are using the JS SDK, we just need the cursor attribute from the URL.
-    let cursor = getState().userData.next_href.split('cursor=')[1];
-
-    dispatch(requestedData());
-
-    SC.get('/me/activities/tracks', {limit: 50, cursor: cursor})
-      .then(json => dispatch(receiveMoreData(json)));
-      //todo: add error handling here
-  }
-}
-
-export function receiveMoreData(json) {
-  return {
-    type: types.RECEIVE_MORE_DATA,
-    tracks: json.collection,
-    future_href: json.future_href,
-    next_href: json.next_href,
-    is_loading: false,
-    received_at: Date.now()
-  }
 }
