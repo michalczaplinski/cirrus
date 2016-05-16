@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import isEmpty from 'lodash.isempty';
 import Waypoint from 'react-waypoint';
 import SC from 'soundcloud';
 
@@ -9,15 +8,27 @@ import * as actions from '../actions/actions';
 import Track from '../components/Track';
 import TopBar from '../components/TopBar';
 import Spinner from '../components/Spinner';
-import {bestTrackSort} from '../logic/logic';
+import LoadMoreButton from '../components/LoadMoreButton';
 
-class MainPage extends Component {
+export class MainPage extends Component {
+
+  constructor(props) {
+    super(props);
+    this.fetchData = this.fetchData.bind(this);
+    this.makeContent = this.makeContent.bind(this);
+    this.renderLoading = this.renderLoading.bind(this);
+    this.handleScrolling = this.handleScrolling.bind(this);
+  }
 
   componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData(path) {
     if (!this.props.appState.is_connected) {
-      this.props.actions.fetchInitialData(this.props.location.pathname);
+      this.props.actions.fetchInitialData();
     } else {
-      this.props.actions.fetchUserData(this.props.location.pathname);
+      this.props.actions.fetchUserData(path || this.props.location.pathname);
     }
   }
 
@@ -27,7 +38,12 @@ class MainPage extends Component {
 
     // if the component loses the connection, fetch the initial data again.
     if (current != next && next == false) {
-      this.props.actions.fetchInitialData(this.props.location.pathname);
+      this.props.actions.fetchInitialData();
+    }
+
+    // todo: need to change this for checking for data's presence + caching.
+    if (this.props.location.pathname != nextProps.location.pathname) {
+      this.fetchData(nextProps.location.pathname);
     }
   }
 
@@ -42,15 +58,15 @@ class MainPage extends Component {
     )
   }
 
-  handleWaypointEnter() {
-    return this.props.actions.fetchMoreData(this.props.location.pathname);
+  handleScrolling() {
+    this.props.actions.fetchMoreData(this.props.location.pathname);
   }
 
   renderLoading() {
     if (this.props.appState.is_loading) {
       return <Spinner/>;
     } else if (!this.props.appState.is_loading && this.props.appState.is_connected) {
-      return <Waypoint onEnter={this.handleWaypointEnter}/>;
+      return <Waypoint onEnter={this.handleScrolling}/>;
     } else {
       return '';
     }

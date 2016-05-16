@@ -18,10 +18,10 @@ const TopBar = ({isConnected, scConnect, scDisconnect}) => {
           <Link to="/hot" activeClassName="is-active" className="header-tab">
             Hot
           </Link>
-          <Link to="/best" className="header-tab">
+          <Link to="/best" activeClassName="is-active" className="header-tab">
             Best
           </Link>
-          <Link to="/top" className="header-tab">
+          <Link to="/top" activeClassName="is-active" className="header-tab">
             Top
           </Link>
         </div>
@@ -34,9 +34,10 @@ const TopBar = ({isConnected, scConnect, scDisconnect}) => {
 
         <div className="header-right header-menu">
           <span className="header-item">
-            <a href="#">
+            <Link to="/hot">
+              {/* TODO: need  */}
               <img src={connectButtonPath} onClick={scButtonAction} alt=""/>
-            </a>
+            </Link>
           </span>
         </div>
       </div>

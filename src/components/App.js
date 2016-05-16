@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
 
-import MainPage from '../containers/MainPage'
+import MainPage from '../containers/MainPage';
 
 const App = (props) => {
   return (
