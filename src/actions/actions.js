@@ -8,7 +8,7 @@ export function requestedData() {
   };
 }
 
-export function fetchInitialData(path) {
+export function fetchInitialData() {
   return (dispatch) => {
 
     dispatch(requestedData());
@@ -26,7 +26,7 @@ export function fetchUserData(path) {
     dispatch(requestedData());
 
     SC.get('/me/activities/tracks', {limit: 50})
-      .then(json => dispatch(receiveUserData(json.collection)));
+      .then(json => dispatch(receiveUserData(json, path)));
     //todo add error handling
   };
 }
@@ -41,15 +41,16 @@ export function fetchMoreData(path) {
     dispatch(requestedData());
 
     SC.get('/me/activities/tracks', {limit: 50, cursor: cursor})
-      .then(json => dispatch(receiveMoreData(json.collection)));
+      .then(json => dispatch(receiveMoreData(json, path)));
     //todo: add error handling here
   }
 }
 
-export function receiveInitialData(json) {
+export function receiveInitialData(json, path) {
   return (dispatch) => {
     dispatch({
       type: types.RECEIVE_INITIAL_DATA,
+      path: path,
       tracks: json,
       is_loading: false,
       receivedAt: Date.now()
@@ -57,10 +58,11 @@ export function receiveInitialData(json) {
   };
 }
 
-export function receiveUserData(json) {
+export function receiveUserData(json, path) {
   return {
     type: types.RECEIVE_USER_DATA,
-    tracks: json,
+    path: path,
+    tracks: json.collection,
     future_href: json.future_href,
     next_href: json.next_href,
     is_loading: false,
@@ -69,10 +71,11 @@ export function receiveUserData(json) {
 }
 
 
-export function receiveMoreData(json) {
+export function receiveMoreData(json, path) {
   return {
     type: types.RECEIVE_MORE_DATA,
-    tracks: json,
+    path: path,
+    tracks: json.collection,
     future_href: json.future_href,
     next_href: json.next_href,
     is_loading: false,

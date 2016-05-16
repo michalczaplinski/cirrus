@@ -4,7 +4,7 @@ import uniqWith from 'lodash.uniqwith';
 
 import * as actions from '../actions/actionTypes';
 import initialState from './initialState';
-import {bestTrackSort} from '../logic/logic';
+import {sortTracks} from '../logic/logic';
 
 function userData(state = {}, action) {
   switch (action.type) {
@@ -20,7 +20,7 @@ function userData(state = {}, action) {
         .filter(track => track.kind == 'track')
         .filter(track => track.playback_count != null || track.playback_count != undefined)
         .filter(track => track.likes_count != null || track.likes_count != undefined);
-      let uniqueUserTracks = uniqWith(userTracks, (a, b) => a.id === b.id ).sort(bestTrackSort);
+      let uniqueUserTracks = sortTracks(action.path, uniqWith(userTracks, (a, b) => a.id === b.id ));
 
       return objectAssign({}, state, {
         tracks: uniqueUserTracks,
@@ -34,7 +34,7 @@ function userData(state = {}, action) {
         .filter(track => track.kind == 'track')
         .filter(track => track.playback_count != null || track.playback_count != undefined)
         .filter(track => track.likes_count != null || track.likes_count != undefined));
-      let uniqueTracks = uniqWith(tracks, (a, b) => a.id === b.id ).sort(bestTrackSort);
+      let uniqueTracks = sortTracks(action.path, uniqWith(tracks, (a, b) => a.id === b.id ));
 
       return objectAssign({}, state, {
         tracks: uniqueTracks,

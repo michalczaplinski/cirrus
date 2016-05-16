@@ -7,6 +7,9 @@ import rootReducer from '../reducers';
 import ReduxThunk from 'redux-thunk'
 import immutableStateInvariantMiddleware from 'redux-immutable-state-invariant';
 import promiseMiddleware from 'redux-promise-middleware';
+import promise from 'redux-promise';
+import createLogger from 'redux-logger';
+import reduxUnhandledAction from "redux-unhandled-action";
 
 import localStorageMiddleware from '../middleware/localStorageMiddleware';
 
@@ -14,9 +17,9 @@ export default function configureStore(initialState) {
   let store = createStore(rootReducer, initialState, compose(
     applyMiddleware(
       localStorageMiddleware,
-      ReduxThunk,
-      promiseMiddleware(),
-      immutableStateInvariantMiddleware()
+      immutableStateInvariantMiddleware(),
+      reduxUnhandledAction(),
+      ReduxThunk
     ),
     window.devToolsExtension ? window.devToolsExtension() : f => f //add support for Redux dev tools
     )
