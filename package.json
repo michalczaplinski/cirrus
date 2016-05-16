@@ -27,6 +27,7 @@
     "font-awesome": "4.6.1",
     "lodash.isempty": "4.2.1",
     "lodash.uniqwith": "4.2.1",
+    "moment": "2.13.0",
     "object-assign": "4.0.1",
     "react": "15.0.1",
     "react-dom": "15.0.1",
