@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import moment from 'moment';
 
 const Track = ({ trackData }) => {
 
@@ -9,6 +10,9 @@ const Track = ({ trackData }) => {
 
   var username = trackData.user.username;
   username.length > 15 ? username = username.slice(0, 23) + '...' : username;
+
+  var creationDate = moment(trackData.created_at, 'YYYY/MM/DD hh:mm:ss +0000').fromNow();
+  //var trackDate = `${creationDate.getDay()}/${creationDate.getMonth()}/${creationDate.getFullYear()}`;
 
   return (
       <div className="card" style={{backgroundImage: 'url(' + trackData.waveform_url + ')'}}>
@@ -29,12 +33,15 @@ const Track = ({ trackData }) => {
           </div>
 
           <div className="content">
-            <a href="#">
-              <span class="icon is-small">
-                <i class="fa fa-heart"></i>{(trackData.likes_count+1) * 100 / (trackData.playback_count+1)}
-              </span>
-            </a>
-              <small>{trackData.created_at}</small>
+            <span>
+              <small>{creationDate}</small>
+            </span>
+            <span>
+              <small>plays: {trackData.playback_count}</small>
+            </span>
+            <span>
+              <small>likes: {trackData.likes_count}</small>
+            </span>
           </div>
         </div>
       </div>

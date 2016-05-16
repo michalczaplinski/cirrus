@@ -18,11 +18,11 @@ const TopBar = ({isConnected, scConnect, scDisconnect}) => {
           <Link to="/hot" activeClassName="is-active" className="header-tab">
             Hot
           </Link>
-          <Link to="/best" activeClassName="is-active" className="header-tab">
-            Best
-          </Link>
           <Link to="/top" activeClassName="is-active" className="header-tab">
             Top
+          </Link>
+          <Link to="/recent" activeClassName="is-active" className="header-tab">
+            Recent
           </Link>
         </div>
 

@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 function hotTrackSort(a, b) {
 
   // we multiply likes by 100, so that our index is a larger number
@@ -9,20 +11,22 @@ function hotTrackSort(a, b) {
   }
 }
 
-function mostListenedTrackSort(a, b) {
-  if (((a.likes_count + 1) * 100 / (a.playback_count + 1)) < ((b.likes_count + 1) * 100 / (b.playback_count + 1))) {
-    return -1;
-  } else {
+function topTrackSort(a, b) {
+  if (a.playback_count < b.playback_count) {
     return 1;
+  } else {
+    return -1
   }
 }
 
-function mostLikedTrackSort(a, b) {
-
-}
-
 function recentTrackSort(a, b) {
-
+  let aDate = moment(a.created_at, 'YYYY/MM/DD hh:mm:ss +0000');
+  let bDate = moment(b.created_at, 'YYYY/MM/DD hh:mm:ss +0000');
+  if (aDate < bDate) {
+    return 1;
+  } else {
+    return -1
+  }
 }
 
 export function sortTracks(route = '/hot', tracks) {
@@ -34,12 +38,11 @@ export function sortTracks(route = '/hot', tracks) {
     case '/hot':
       return tracks.sort(hotTrackSort);
 
-    //todo: implement the new sort types
-    case '/best':
-      return tracks.sort(mostListenedTrackSort);
-
     case '/top':
-      return tracks.sort(mostListenedTrackSort);
+      return tracks.sort(topTrackSort);
+
+    case '/recent':
+      return tracks.sort(recentTrackSort);
 
     default:
       console.log('this should never happen');
