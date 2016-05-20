@@ -25,7 +25,8 @@ const store = configureStore({
   },
   userData: {
     tracks: []
-  }
+  },
+  playerState: {}
 });
 
 render(

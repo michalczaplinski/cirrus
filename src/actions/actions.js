@@ -110,3 +110,40 @@ export function scDisconnect() {
     itemsToRemove: ['oauth_token'],
     itemsToStore: ['is_connected']}
 }
+
+
+export function playTrack(trackId) {
+  return {
+    type: types.PLAY_TRACK,
+    is_playing: true,
+    track_id: trackId,
+    track_position: 0
+  }
+}
+
+export function resumeTrack() {
+  return {
+    type: types.RESUME_TRACK,
+    is_playing: true
+  }
+}
+
+export function pauseTrack() {
+  return {
+    type: types.PAUSE_TRACK,
+    is_playing: false
+  }
+}
+
+export function changeVolume(loudness) {
+  return {
+    type: types.CHANGE_VOLUME,
+    loudness: loudness }
+}
+
+export function updateTrackPosition(position) {
+  return {
+    type: types.UPDATE_TRACK_POSITION,
+    track_position: action.track_position
+  }
+}

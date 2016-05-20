@@ -76,9 +76,39 @@ function appState(state = {}, action) {
   }
 }
 
+function playerState(state = {}, action) {
+  switch (action.type) {
+
+    case actions.PLAY_TRACK:
+      return objectAssign({}, state, {
+        is_playing: action.is_playing,
+        track_id: action.track_id
+      });
+
+    case actions.RESUME_TRACK:
+      return objectAssign({}, state, {
+        is_playing: action.is_playing
+      });
+
+    case actions.PAUSE_TRACK:
+      return objectAssign({}, state, {
+        is_playing: action.is_playing
+      });
+
+    case actions.UPDATE_TRACK_POSITION:
+      return objectAssign({}, state, {
+        track_position: action.track_position
+      });
+
+    default:
+      return state
+  }
+}
+
 const rootReducer = combineReducers({
   userData,
-  appState
+  appState,
+  playerState
 });
 
 export default rootReducer;
