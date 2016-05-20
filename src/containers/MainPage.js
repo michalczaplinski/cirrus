@@ -9,6 +9,7 @@ import Track from '../components/Track';
 import TopBar from '../components/TopBar';
 import Spinner from '../components/Spinner';
 import LoadMoreButton from '../components/LoadMoreButton';
+import Player from '../components/Player';
 
 export class MainPage extends Component {
 
@@ -52,7 +53,8 @@ export class MainPage extends Component {
     return (
       <div>
         <div className="my-container">
-          {data.map(track => <Track key={track.id + track.user_id} trackData={track}/>)}
+          {data.map(track => <Track key={track.id + track.user_id}
+                                    trackData={track}/>)}
         </div>
       </div>
     )
@@ -80,6 +82,7 @@ export class MainPage extends Component {
                 scDisconnect={this.props.actions.scDisconnect}/>
         {this.makeContent()}
         {this.renderLoading()}
+        <Player/>
       </div>
     );
   }
@@ -90,10 +93,11 @@ MainPage.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { userData, appState } = state;
+  const { userData, appState, playerState } = state;
   return {
     userData,
-    appState
+    appState,
+    playerState
   };
 }
 
