@@ -111,6 +111,13 @@ export function scDisconnect() {
     itemsToStore: ['is_connected']}
 }
 
+export function streamTrack(trackData) {
+  return {
+    type: types.STREAM_TRACK,
+    trackData: trackData,
+    is_streaming: true
+  }
+}
 
 export function playTrack(trackId) {
   return {
@@ -144,6 +151,6 @@ export function changeVolume(loudness) {
 export function updateTrackPosition(position) {
   return {
     type: types.UPDATE_TRACK_POSITION,
-    track_position: action.track_position
+    track_position: position
   }
 }

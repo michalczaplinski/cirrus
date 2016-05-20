@@ -54,7 +54,8 @@ export class MainPage extends Component {
       <div>
         <div className="my-container">
           {data.map(track => <Track key={track.id + track.user_id}
-                                    trackData={track}/>)}
+                                    trackData={track}
+                                    streamTrack={this.props.actions.streamTrack}/>)}
         </div>
       </div>
     )
@@ -82,7 +83,11 @@ export class MainPage extends Component {
                 scDisconnect={this.props.actions.scDisconnect}/>
         {this.makeContent()}
         {this.renderLoading()}
-        <Player/>
+        <Player playerState={this.props.playerState}
+                playTrack={this.props.playTrack}
+                pauseTrack={this.props.pauseTrack}
+                changeVolume={this.props.changeVolume}
+                updateTrackPosition={this.props.updateTrackPosition}/>
       </div>
     );
   }
