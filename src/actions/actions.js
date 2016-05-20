@@ -13,7 +13,7 @@ export function fetchInitialData() {
 
     dispatch(requestedData());
 
-    SC.get('/tracks', {'limit': 20})
+    SC.get('/tracks', {'limit': 30})
       .then(json => dispatch(receiveInitialData(json)));
     // todo add error handling
 
