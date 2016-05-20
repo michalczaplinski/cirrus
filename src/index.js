@@ -26,7 +26,10 @@ const store = configureStore({
   userData: {
     tracks: []
   },
-  playerState: {}
+  playerState: {
+    track_data: {},
+    is_streaming: false
+  }
 });
 
 render(

@@ -2,7 +2,7 @@ import React, {PropTypes, Component} from 'react';
 import moment from 'moment';
 import SC from 'soundcloud';
 
-const Track = ({ trackData,  }) => {
+const Track = ({ trackData, streamTrack }) => {
 
   var image = trackData.artwork_url || trackData.user.avatar_url || 'http://placehold.it/64x64';
 
@@ -13,21 +13,15 @@ const Track = ({ trackData,  }) => {
   username.length > 15 ? username = username.slice(0, 23) + '...' : username;
 
   var creationDate = moment(trackData.created_at, 'YYYY/MM/DD hh:mm:ss +0000').fromNow();
-  //var trackDate = `${creationDate.getDay()}/${creationDate.getMonth()}/${creationDate.getFullYear()}`;
 
-  const playTrack = () => {
-    SC.stream(`/tracks/${trackData.id}`)
-      .then(player => {
-        player.play();
-        return player;
-      })
-    ;
-
-
-  };
+  const stream = () => {
+    streamTrack(trackData);
+  }
 
   return (
-    <a className="card" style={{backgroundImage: 'url(' + trackData.waveform_url + ')'}}>
+    <a className="card"
+       style={{backgroundImage: 'url(' + trackData.waveform_url + ')'}}
+       onClick={stream}>
       <div className="card-content">
         <div className="media">
 
@@ -44,13 +38,13 @@ const Track = ({ trackData,  }) => {
         </div>
 
         <div className="content">
-          <span>
+          <span className="content--item">
             <small>{creationDate}</small>
           </span>
-          <span>
+          <span className="content--item">
             <small>plays: {trackData.playback_count}</small>
           </span>
-          <span>
+          <span className="content--item">
             <small>likes: {trackData.likes_count}</small>
           </span>
         </div>
@@ -60,5 +54,3 @@ const Track = ({ trackData,  }) => {
 };
 
 export default Track
-
-

@@ -16,7 +16,8 @@ function userData(state = {}, action) {
 
     case actions.RECEIVE_USER_DATA:
 
-      let userTracks = action.tracks.map(track => track.origin)
+      let userTracks = action.tracks.filter(track => track.origin != null)
+        .map(track => track.origin)
         .filter(track => track.kind == 'track')
         .filter(track => track.playback_count != null || track.playback_count != undefined)
         .filter(track => track.likes_count != null || track.likes_count != undefined);
@@ -30,7 +31,8 @@ function userData(state = {}, action) {
 
     case actions.RECEIVE_MORE_DATA:
 
-      let tracks = state.tracks.concat(action.tracks.map(track => track.origin)
+      let tracks = state.tracks.concat(action.tracks.filter(track => track.origin != null)
+        .map(track => track.origin)
         .filter(track => track.kind == 'track')
         .filter(track => track.playback_count != null || track.playback_count != undefined)
         .filter(track => track.likes_count != null || track.likes_count != undefined));
@@ -78,6 +80,12 @@ function appState(state = {}, action) {
 
 function playerState(state = {}, action) {
   switch (action.type) {
+
+    case actions.STREAM_TRACK:
+      return objectAssign({}, state, {
+        track_data: action.trackData,
+        is_streaming: action.is_streaming
+      })
 
     case actions.PLAY_TRACK:
       return objectAssign({}, state, {
