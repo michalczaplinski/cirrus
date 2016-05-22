@@ -16,7 +16,7 @@ const Track = ({ trackData, streamTrack }) => {
 
   const stream = () => {
     streamTrack(trackData);
-  }
+  };
 
   return (
     <a className="card"
