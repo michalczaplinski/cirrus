@@ -85,7 +85,7 @@ function playerState(state = {}, action) {
       return objectAssign({}, state, {
         track_data: action.trackData,
         is_streaming: action.is_streaming
-      })
+      });
 
     case actions.PLAY_TRACK:
       return objectAssign({}, state, {

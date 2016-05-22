@@ -84,10 +84,11 @@ export class MainPage extends Component {
         {this.makeContent()}
         {this.renderLoading()}
         <Player playerState={this.props.playerState}
-                playTrack={this.props.playTrack}
-                pauseTrack={this.props.pauseTrack}
-                changeVolume={this.props.changeVolume}
-                updateTrackPosition={this.props.updateTrackPosition}/>
+                playTrack={this.props.actions.playTrack}
+                pauseTrack={this.props.actions.pauseTrack}
+                resumeTrack={this.props.actions.resumeTrack}
+                changeVolume={this.props.actions.changeVolume}
+                updateTrackPosition={this.props.actions.updateTrackPosition}/>
       </div>
     );
   }

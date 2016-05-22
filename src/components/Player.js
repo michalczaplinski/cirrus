@@ -5,37 +5,46 @@ class Player extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {player: {}, track_data: {}}
+    this.state = {player: {}, track_data: {}};
     this.startStreaming = this.startStreaming.bind(this);
-    this.playButton = this.playButton.bind(this);
     this.pause = this.pause.bind(this);
+    this.resume = this.resume.bind(this);
+    this.PlayButton = this.PlayButton.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    let current = this.props.playerState.is_streaming;
-    let next = nextProps.playerState.is_streaming;
+    let current = this.props.playerState.track_data;
+    let next = nextProps.playerState.track_data;
 
-    if (current != next && next == true) {
+    if (current != next) {
       this.startStreaming(nextProps.playerState.track_data);
     }
   }
 
   startStreaming(trackData) {
-    return SC.stream(`/tracks/${trackData.id}`).then(p => {
-      p.play();
+    SC.stream(`/tracks/${trackData.id}`).then(SCplayer => {
+      this.setState({player: SCplayer, track_data: trackData});
+      SCplayer.play();
       this.props.playTrack(trackData.id);
-      this.setState({ player: p })
-    });
-  }
-
-  playButton() {
-    let icon = this.props.playerState.is_streaming ? 'fa fa-pause' : 'fa fa-play'
-    return <i className={icon}></i>
+    })
   }
 
   pause() {
     this.state.player.pause();
-    this.actions.pauseTrack();
+    this.props.pauseTrack();
+  }
+
+  resume() {
+    this.state.player.play();
+    this.props.resumeTrack();
+  }
+
+  PlayButton() {
+    let handleClick = this.props.playerState.is_playing ? this.pause : this.resume;
+    let icon = this.props.playerState.is_playing ? 'fa fa-pause' : 'fa fa-play';
+    return  <a className="player--item" onClick={handleClick}>
+              <i className={icon}></i>
+            </a>
   }
 
   render() {
@@ -55,9 +64,7 @@ class Player extends Component {
       <a className="player--item">
         <i className="fa fa-step-backward"></i>
       </a>
-      <a className="player--item" onClick={this.pause}>
-        {this.playButton()}
-      </a>
+      {this.PlayButton()}
       <a className="player--item">
         <i className="fa fa-step-forward"></i>
       </a>

@@ -28,7 +28,8 @@ const store = configureStore({
   },
   playerState: {
     track_data: {},
-    is_streaming: false
+    is_streaming: false,
+    is_playing: false
   }
 });
 
