@@ -3,13 +3,15 @@ import SC from 'soundcloud';
 
 class Player extends Component {
 
+  //TODO: add proptypes
+
   constructor(props) {
     super(props);
     this.startStreaming = this.startStreaming.bind(this);
     this.pause = this.pause.bind(this);
-    this.resume = this.resume.bind(this);
+    this.play = this.play.bind(this);
     this.PlayButton = this.PlayButton.bind(this);
-    this.player = {};
+    this.SCPlayer = {};
   }
 
   componentWillReceiveProps(nextProps) {
@@ -22,25 +24,35 @@ class Player extends Component {
   }
 
   startStreaming(trackData) {
-    SC.stream(`/tracks/${trackData.id}`).then(SCplayer => {
-      this.player = SCplayer;
-      SCplayer.play();
+    SC.stream(`/tracks/${trackData.id}`).then(SCPlayer => {
+      this.SCPlayer = SCPlayer;
+      this.props.streamTrack(trackData);
+      SCPlayer.play();
       this.props.playTrack(trackData.id);
     })
   }
 
   pause() {
-    this.player.pause();
-    this.props.pauseTrack();
+    if (this.props.playerState.is_streaming) {
+      this.SCPlayer.pause();
+      this.props.pauseTrack();
+    }
   }
 
-  resume() {
-    this.player.play();
-    this.props.resumeTrack();
+  play() {
+    // in case we have a streaming instance of SC player, just resume current song.
+    if (this.props.playerState.is_streaming) {
+      this.SCPlayer.play();
+      this.props.resumeTrack();
+
+    // otherwise, stream the first song on the list.
+    } else {
+      this.startStreaming(this.props.tracks[0])
+    }
   }
 
   PlayButton() {
-    let handleClick = this.props.playerState.is_playing ? this.pause : this.resume;
+    let handleClick = this.props.playerState.is_playing ? this.pause : this.play;
     let icon = this.props.playerState.is_playing ? 'fa fa-pause' : 'fa fa-play';
     return  <a className="player--item" onClick={handleClick}>
               <i className={icon}></i>
@@ -48,11 +60,15 @@ class Player extends Component {
   }
 
   render() {
+
+    let trackData = this.props.playerState.track_data;
+    let coverImageUrl = trackData.artwork_url ||
+        (trackData.user != undefined ) ? trackData.user.avatar_url : 'http://placehold.it/64x64';
+
     return (
     <div className="player">
       <a className="player--item">
-        <img src={ this.props.playerState.track_data.artwork_url ||
-                   'http://placehold.it/64x64'} alt="Track Image" height="40" width="40"/>
+        <img src={ coverImageUrl } alt="Track Image" height="40" width="40"/>
       </a>
 
       <a className="player--item">
