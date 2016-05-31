@@ -48,7 +48,6 @@ export function fetchMoreData(path) {
       .catch(err => {
         throw err;
       });
-    //todo: add error handling here
   }
 }
 

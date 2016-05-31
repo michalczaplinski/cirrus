@@ -83,8 +83,10 @@ export class MainPage extends Component {
                 scDisconnect={this.props.actions.scDisconnect}/>
         {this.makeContent()}
         {this.renderLoading()}
-        <Player playerState={this.props.playerState}
+        <Player tracks={this.props.userData.tracks}
+                playerState={this.props.playerState}
                 playTrack={this.props.actions.playTrack}
+                streamTrack={this.props.actions.streamTrack}
                 pauseTrack={this.props.actions.pauseTrack}
                 resumeTrack={this.props.actions.resumeTrack}
                 changeVolume={this.props.actions.changeVolume}
