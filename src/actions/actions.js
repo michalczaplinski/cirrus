@@ -14,9 +14,10 @@ export function fetchInitialData() {
     dispatch(requestedData());
 
     SC.get('/tracks', {'limit': 30})
-      .then(json => dispatch(receiveInitialData(json)));
-    // todo add error handling
-
+      .then(json => dispatch(receiveInitialData(json)))
+      .catch(err => {
+        throw err
+      });
   };
 }
 
@@ -26,8 +27,10 @@ export function fetchUserData(path) {
     dispatch(requestedData());
 
     SC.get('/me/activities/tracks', {limit: 50})
-      .then(json => dispatch(receiveUserData(json, path)));
-    //todo add error handling
+      .then(json => dispatch(receiveUserData(json, path)))
+      .catch(err => {
+        throw err
+      });
   };
 }
 

@@ -5,11 +5,11 @@ class Player extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {player: {}, track_data: {}};
     this.startStreaming = this.startStreaming.bind(this);
     this.pause = this.pause.bind(this);
     this.resume = this.resume.bind(this);
     this.PlayButton = this.PlayButton.bind(this);
+    this.player = {};
   }
 
   componentWillReceiveProps(nextProps) {
@@ -23,19 +23,19 @@ class Player extends Component {
 
   startStreaming(trackData) {
     SC.stream(`/tracks/${trackData.id}`).then(SCplayer => {
-      this.setState({player: SCplayer, track_data: trackData});
+      this.player = SCplayer;
       SCplayer.play();
       this.props.playTrack(trackData.id);
     })
   }
 
   pause() {
-    this.state.player.pause();
+    this.player.pause();
     this.props.pauseTrack();
   }
 
   resume() {
-    this.state.player.play();
+    this.player.play();
     this.props.resumeTrack();
   }
 

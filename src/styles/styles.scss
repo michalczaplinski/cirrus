@@ -171,8 +171,9 @@ input[type=range]:focus::-ms-fill-upper {
 
 .player--item {
   display: flex;
-  flex-shrink: 1;
-  padding-right: 15px;
+  //flex-shrink: 1;
+  padding-right: 2%
+;
 }
 
 .player--item--range {
