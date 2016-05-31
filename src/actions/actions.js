@@ -16,7 +16,7 @@ export function fetchInitialData() {
     SC.get('/tracks', {'limit': 30})
       .then(json => dispatch(receiveInitialData(json)))
       .catch(err => {
-        throw err
+        throw err;
       });
   };
 }
@@ -29,7 +29,7 @@ export function fetchUserData(path) {
     SC.get('/me/activities/tracks', {limit: 50})
       .then(json => dispatch(receiveUserData(json, path)))
       .catch(err => {
-        throw err
+        throw err;
       });
   };
 }
@@ -44,7 +44,10 @@ export function fetchMoreData(path) {
     dispatch(requestedData());
 
     SC.get('/me/activities/tracks', {limit: 50, cursor: cursor})
-      .then(json => dispatch(receiveMoreData(json, path)));
+      .then(json => dispatch(receiveMoreData(json, path)))
+      .catch(err => {
+        throw err;
+      });
     //todo: add error handling here
   }
 }
@@ -99,9 +102,11 @@ export function scConnect() {
         is_connected: true,
         itemsToStore: ['oauth_token', 'is_connected']});
       // todo move the localStoreage payloads into their own actions
+
       dispatch(fetchUserData());
-    });
-    //todo error handling
+
+    })
+    .catch(err => { throw err; });
   };
 }
 
