@@ -2,8 +2,6 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import rootReducer from '../reducers';
 import ReduxThunk from 'redux-thunk'
 import immutableStateInvariantMiddleware from 'redux-immutable-state-invariant';
-import promiseMiddleware from 'redux-promise-middleware';
-import promise from 'redux-promise';
 import createLogger from 'redux-logger';
 import reduxUnhandledAction from "redux-unhandled-action";
 
