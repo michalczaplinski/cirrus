@@ -1,10 +1,9 @@
 import { combineReducers } from 'redux';
 import objectAssign from 'object-assign';
-import uniqWith from 'lodash.uniqwith';
 
 import * as actions from '../actions/actionTypes';
 import initialState from './initialState';
-import {sortTracks} from '../logic/logic';
+import {trackFilter} from '../logic/logic';
 
 function userData(state = {}, action) {
   switch (action.type) {
@@ -16,30 +15,20 @@ function userData(state = {}, action) {
 
     case actions.RECEIVE_USER_DATA:
 
-      let userTracks = action.tracks.filter(track => track.origin != null)
-        .map(track => track.origin)
-        .filter(track => track.kind == 'track')
-        .filter(track => track.playback_count != null || track.playback_count != undefined)
-        .filter(track => track.likes_count != null || track.likes_count != undefined);
-      let uniqueUserTracks = sortTracks(action.path, uniqWith(userTracks, (a, b) => a.id === b.id ));
+      let tracks = trackFilter(action.path, action.tracks);
 
       return objectAssign({}, state, {
-        tracks: uniqueUserTracks,
+        tracks: tracks,
         future_href: action.future_href,
         next_href: action.next_href
       });
 
     case actions.RECEIVE_MORE_DATA:
 
-      let tracks = state.tracks.concat(action.tracks.filter(track => track.origin != null)
-        .map(track => track.origin)
-        .filter(track => track.kind == 'track')
-        .filter(track => track.playback_count != null || track.playback_count != undefined)
-        .filter(track => track.likes_count != null || track.likes_count != undefined));
-      let uniqueTracks = sortTracks(action.path, uniqWith(tracks, (a, b) => a.id === b.id ));
+      let userTracks = state.tracks.concat(trackFilter(action.path, action.tracks));
 
       return objectAssign({}, state, {
-        tracks: uniqueTracks,
+        tracks: userTracks,
         future_href: action.future_href,
         next_href: action.next_href
       });
