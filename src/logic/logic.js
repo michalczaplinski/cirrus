@@ -1,4 +1,5 @@
 import moment from 'moment';
+import uniqWith from 'lodash.uniqwith';
 
 function hotTrackSort(a, b) {
 
@@ -29,7 +30,7 @@ function recentTrackSort(a, b) {
   }
 }
 
-export function sortTracks(route = '/hot', tracks) {
+function sortTracks(route = '/hot', tracks) {
   switch (route) {
 
     case '/':
@@ -48,4 +49,22 @@ export function sortTracks(route = '/hot', tracks) {
       console.log('this should never happen');
       break;
   }
+}
+
+
+/*
+ * Filter the tracks by hot, top or recent, depending on the
+ * @param {string} path - the current router path
+ * @param {array} tracks - the tracks returned from the Soundcloud API call
+ */
+export function trackFilter(path, tracks) {
+
+  let allTracks = tracks.filter(track => track.origin != null)
+    .map(track => track.origin)
+    .filter(track => track.kind == 'track')
+    .filter(track => track.playback_count != null || track.playback_count != undefined)
+    .filter(track => track.likes_count != null || track.likes_count != undefined)
+    .filter(track => track.streamable);
+
+  return sortTracks(path, uniqWith(allTracks, (a, b) => a.id === b.id ));
 }
