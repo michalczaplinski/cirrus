@@ -5,8 +5,21 @@ const TopBar = ({isConnected, scConnect, scDisconnect}) => {
 
   let logoStyle = {maxHeight: 50};
 
-  let connectButtonPath = isConnected ? '../media/btn-disconnect.png' : '../media/btn-connect.png';
-  let scButtonAction =  isConnected ? scDisconnect : scConnect;
+  let connectButtonImagePath = isConnected ? '../media/btn-disconnect.png' : '../media/btn-connect.png';
+  let connectButtonAction =  isConnected ? scDisconnect : scConnect;
+  let connectButtonLink = isConnected ? '/' : '/hot';
+
+  let tabs =  [
+                <Link to="/hot" activeClassName="is-active" className="header-tab" key="hot">
+                  Hot
+                </Link>,
+                <Link to="/top" activeClassName="is-active" className="header-tab" key="top">
+                  Top
+                </Link>,
+                <Link to="/recent" activeClassName="is-active" className="header-tab" key="recent">
+                  Recent
+                </Link>
+              ];
 
   return (
     <header className="header">
@@ -15,15 +28,7 @@ const TopBar = ({isConnected, scConnect, scDisconnect}) => {
           <IndexLink to="/" className="header-item" >
             <img src="../media/musicumulus-logo.svg" alt="Logo" height="60" width="60" style={logoStyle}></img>
           </IndexLink>
-          <Link to="/hot" activeClassName="is-active" className="header-tab">
-            Hot
-          </Link>
-          <Link to="/top" activeClassName="is-active" className="header-tab">
-            Top
-          </Link>
-          <Link to="/recent" activeClassName="is-active" className="header-tab">
-            Recent
-          </Link>
+        {isConnected ? tabs : ''}
         </div>
 
         <span className="header-toggle">
@@ -34,9 +39,8 @@ const TopBar = ({isConnected, scConnect, scDisconnect}) => {
 
         <div className="header-right header-menu">
           <span className="header-item">
-            <Link to="/hot">
-              {/* TODO: need  */}
-              <img src={connectButtonPath} onClick={scButtonAction} alt=""/>
+            <Link to={connectButtonLink}>
+              <img src={connectButtonImagePath} onClick={connectButtonAction} alt=""/>
             </Link>
           </span>
         </div>

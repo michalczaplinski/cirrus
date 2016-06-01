@@ -62,35 +62,36 @@ class Player extends Component {
   render() {
 
     let trackData = this.props.playerState.track_data;
-    let coverImageUrl = trackData.artwork_url ||
-        (trackData.user != undefined ) ? trackData.user.avatar_url : 'http://placehold.it/64x64';
+    let coverImageUrl = trackData.artwork_url || ((trackData.user != undefined ) ?
+                                                   trackData.user.avatar_url :
+                                                   'http://placehold.it/64x64');
 
     return (
-    <div className="player">
-      <a className="player--item">
-        <img src={ coverImageUrl } alt="Track Image" height="40" width="40"/>
-      </a>
+      <div className="player">
+        <a className="player--item">
+          <img src={ coverImageUrl } alt="Track Image" height="40" width="40"/>
+        </a>
 
-      <a className="player--item">
-        <span>
-        { this.props.playerState.track_data.title || '' }
+        <a className="player--item">
+          <span>
+          { this.props.playerState.track_data.title || '' }
+          </span>
+        </a>
+
+        <a className="player--item">
+          <i className="fa fa-step-backward"></i>
+        </a>
+        {this.PlayButton()}
+        <a className="player--item">
+          <i className="fa fa-step-forward"></i>
+        </a>
+        <span className="player--item--range">
+          <input type="range"/>
         </span>
-      </a>
-
-      <a className="player--item">
-        <i className="fa fa-step-backward"></i>
-      </a>
-      {this.PlayButton()}
-      <a className="player--item">
-        <i className="fa fa-step-forward"></i>
-      </a>
-      <span className="player--item--range">
-        <input type="range"/>
-      </span>
-      <a className="player--item">
-        <i className="fa fa-volume-up"> </i>
-      </a>
-    </div>
+        <a className="player--item">
+          <i className="fa fa-volume-up"> </i>
+        </a>
+      </div>
   )}
 }
 
