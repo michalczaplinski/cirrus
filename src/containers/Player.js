@@ -1,5 +1,6 @@
 import React, {PropTypes, Component} from 'react';
 import SC from 'soundcloud';
+import soundManager from 'soundmanager2';
 
 class Player extends Component {
 
@@ -23,10 +24,19 @@ class Player extends Component {
     }
   }
 
+  addSCPlayerEventListeners(SCPlayer) {
+    SCPlayer.on('audio_error', (err) => { console.error('audio_error', err)});
+    SCPlayer.on('geo_blocked', (err) => { console.error('geo_blocked', err)});
+    SCPlayer.on('no_streams', (err) => { console.error('no_streams', err)});
+    SCPlayer.on('no_protocol', (err) => { console.error('no_protocol', err)});
+    SCPlayer.on('no_connection', (err) => { console.error('no_connection', err)})
+  }
+
   startStreaming(trackData) {
     SC.stream(`/tracks/${trackData.id}`).then(SCPlayer => {
       this.SCPlayer = SCPlayer;
       this.props.streamTrack(trackData);
+      this.addSCPlayerEventListeners(SCPlayer);
       SCPlayer.play();
       this.props.playTrack(trackData.id);
     })

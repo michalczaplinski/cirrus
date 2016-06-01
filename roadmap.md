@@ -1,5 +1,13 @@
+### NOW
+✅add error catching for the SC player
+✅fix playback in chrome
+- correct the player layout
+- skipping the tracks forward and back
+- seeking track position
+- add volume controls
+- add the fontawesome icons on tracks
+
+### SOON
 - enzyme testing
-- add error catching for the SC player
 - figure out why mobile layout is messed up
-- remove the tabs from the initial landing page
-  before the user logs in.
+- split Player and other components into dumb components and containters
