@@ -75,6 +75,7 @@ class Player extends Component {
     let coverImageUrl = trackData.artwork_url || ((trackData.user != undefined ) ?
                                                    trackData.user.avatar_url :
                                                    'http://placehold.it/64x64');
+    let username = trackData.user ? trackData.user.username : '';
 
     return (
       <div className="player">
@@ -82,10 +83,9 @@ class Player extends Component {
           <img src={ coverImageUrl } alt="Track Image" height="40" width="40"/>
         </a>
 
-        <a className="player--item">
-          <span>
-          { this.props.playerState.track_data.title || '' }
-          </span>
+        <a className="player--title">
+          <strong className="player--title-item"> { username } </strong>
+          <span className="player--title-item" >{ trackData.title }</span>
         </a>
 
         <a className="player--item">
@@ -95,7 +95,7 @@ class Player extends Component {
         <a className="player--item">
           <i className="fa fa-step-forward"></i>
         </a>
-        <span className="player--item--range">
+        <span className="player--slider">
           <input type="range"/>
         </span>
         <a className="player--item">
