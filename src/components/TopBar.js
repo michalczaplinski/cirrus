@@ -31,13 +31,7 @@ const TopBar = ({isConnected, scConnect, scDisconnect}) => {
         {isConnected ? tabs : ''}
         </div>
 
-        <span className="header-toggle">
-          <span></span>
-          <span></span>
-          <span></span>
-        </span>
-
-        <div className="header-right header-menu">
+        <div className="header-right">
           <span className="header-item">
             <Link to={connectButtonLink}>
               <img src={connectButtonImagePath} onClick={connectButtonAction} alt=""/>

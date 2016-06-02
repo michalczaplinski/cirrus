@@ -19,7 +19,7 @@ const Track = ({ trackData, streamTrack }) => {
   };
 
   return (
-    <a className="card"
+    <a className="card my-track"
        style={{backgroundImage: 'url(' + trackData.waveform_url + ')'}}
        onClick={stream}>
       <div className="card-content">
