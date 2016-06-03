@@ -46,7 +46,7 @@ function sortTracks(route = '/hot', tracks) {
       return tracks.sort(recentTrackSort);
 
     default:
-      console.log('this should never happen');
+      console.error('this should never happen');
       break;
   }
 }

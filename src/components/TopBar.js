@@ -5,7 +5,7 @@ const TopBar = ({isConnected, scConnect, scDisconnect}) => {
 
   let logoStyle = {maxHeight: 50};
 
-  let connectButtonImagePath = isConnected ? '../media/btn-disconnect.png' : '../media/btn-connect.png';
+  let connectButtonImagePath = isConnected ? require('../media/btn-disconnect.png') : require('../media/btn-connect.png');
   let connectButtonAction =  isConnected ? scDisconnect : scConnect;
   let connectButtonLink = isConnected ? '/' : '/hot';
 
@@ -26,7 +26,7 @@ const TopBar = ({isConnected, scConnect, scDisconnect}) => {
       <div className="container">
         <div className="header-left">
           <IndexLink to="/" className="header-item" >
-            <img src="../media/musicumulus-logo.svg" alt="Logo" height="60" width="60" style={logoStyle}></img>
+            <img src={require("../media/musicumulus-logo.svg")} alt="Logo" height="60" width="60" style={logoStyle}></img>
           </IndexLink>
         {isConnected ? tabs : ''}
         </div>

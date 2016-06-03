@@ -15,20 +15,16 @@ function userData(state = {}, action) {
 
     case actions.RECEIVE_USER_DATA:
 
-      let tracks = trackFilter(action.path, action.tracks);
-
       return objectAssign({}, state, {
-        tracks: tracks,
+        tracks: trackFilter(action.path, action.tracks),
         future_href: action.future_href,
         next_href: action.next_href
       });
 
     case actions.RECEIVE_MORE_DATA:
 
-      let userTracks = state.tracks.concat(trackFilter(action.path, action.tracks));
-
       return objectAssign({}, state, {
-        tracks: userTracks,
+        tracks: state.tracks.concat(trackFilter(action.path, action.tracks)),
         future_href: action.future_href,
         next_href: action.next_href
       });
