@@ -1,6 +1,5 @@
 import React, {PropTypes, Component} from 'react';
 import SC from 'soundcloud';
-import soundManager from 'soundmanager2';
 
 class Player extends Component {
 
@@ -96,7 +95,7 @@ class Player extends Component {
           <i className="fa fa-step-forward"></i>
         </a>
         <span className="player--slider">
-          <input type="range"/>
+          <input type="range" defaultValue="0"/>
         </span>
         <a className="player--item">
           <i className="fa fa-volume-up"> </i>
